@@ -1,0 +1,8 @@
+# init
+#rm -f ./files/*
+#cp backup/crushmap ./files/
+
+# meta install
+ansible-playbook aws-ceph-meta.yml
+ansible-playbook aws-ceph-osd-nvme.yml
+

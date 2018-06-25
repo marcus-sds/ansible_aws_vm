@@ -1,0 +1,50 @@
+---
+- name: Create a mon instance
+  hosts: localhost
+  gather_facts: False
+  vars:
+    tagname: "{{ ec2_tagname }}"
+  tasks:
+    - name: Launch mon
+      ec2:
+        region: "{{ ec2_region }}"
+        ec2_access_key: "{{ ec2_access_key }}"
+        ec2_secret_key: "{{ ec2_secret_key }}"
+        key_name: "{{ key_name }}"
+        group: "{{ security_group }}"
+        instance_type: "{{ ec2_type }}"
+        image: "{{ image }}"
+        wait: true
+        vpc_subnet_id: "{{ subnet1 }}"
+        assign_public_ip: false
+        instance_tags:
+          Name: "{{ tagname }}-mon"
+        exact_count: "{{ mon1_count }}"
+        count_tag:
+          Name: "{{ tagname }}-mon"
+        volumes:
+          - device_name: /dev/sdf
+            volume_type: gp2
+            volume_size: 10
+            delete_on_termination: true
+        spot_price: 0.05
+        spot_wait_timeout: 600
+      register: mon
+
+    - name: Add new instance to host group
+      add_host:
+        hostname: "{{ item.public_ip }}"
+        groupname: mon
+      with_items: "{{ mon.instances }}"
+
+    - name: Wait for SSH to come up
+      wait_for:
+        host: "{{ item.public_ip }}"
+        port: 22
+        delay: 60
+        timeout: 320
+        state: started
+      with_items: "{{ mon.instances }}"
+
+
+
