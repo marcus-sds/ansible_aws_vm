@@ -1,8 +1,20 @@
 # ansible_aws_vm
 
+## login to ansible installed container or install ansible
+
+- login to ansible container
+
+    - install docker
+   
+    - docker pull
+
+- install anisble manually
+
+    - pip install -r requirements.txt
+
 ## Creating Several vms with AWS
 
-## Procedure
+### Procedure
 
 - clone repository
 
