@@ -56,8 +56,9 @@
 
     bash ./example
 
-
 ## spot instance price
+
+### aws_ec2.yml file includes **spot_price: 0.05**. User can edit the instance type and spot bidding price.
 
 | No               | Region         | Family            | Type        | Cost ($/hour) | Cost ($/month) | Spot ($/hour) | Spot ($/month)  |     |     | 
 |------------------|----------------|-------------------|-------------|---------------|----------------|---------------|-----------------|-----|-----| 
